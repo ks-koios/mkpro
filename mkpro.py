@@ -1,13 +1,12 @@
 import json
 import os
 
-def readSettings():
+def read_settings():
     with open("settings.json", "r") as settings_file:
         settings = json.load(settings_file)
         return settings
 
-# TODO(1): create a folder
-def CreateProjectFolder(folder_path, project_name):
+def create_project_folder(folder_path, project_name):
     fullPath = folder_path.rstrip('/') + '/' + project_name
     if not os.path.isdir(fullPath):
         try:
@@ -19,17 +18,15 @@ def CreateProjectFolder(folder_path, project_name):
     else:
         print("## ERR: Project folder already exists")
 
+# TODO(1): create a venv
+def create_venv():
+    pass
 # TODO(2): git init
-
 # TODO(3): .gitignore
-
 # TODO(4): git push
-
-# TODO(5): create a venv
-
-# TODO(6): open up code
+# TODO(5): open up code in WSL
 
 if __name__ == "__main__":
-    settings = readSettings()
+    settings = read_settings()
     project_name = input("## Enter the project name: ")
-    CreateProjectFolder(settings["RootFolderPath"], project_name)
+    create_project_folder(settings["RootFolderPath"], project_name)
