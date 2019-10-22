@@ -1,6 +1,7 @@
 import json
 import os
 import subprocess
+import requests
 
 def read_settings():
     with open("settings.json", "r") as settings_file:
@@ -26,12 +27,15 @@ def create_venv(full_path):
 # TODO(2): git init
 # TODO(3): .gitignore and Readme
 # TODO(4): git push
+def git_setup(github_token):
+    pass
 # TODO(5): open up code in WSL
 
 if __name__ == "__main__":
     settings = read_settings()
     project_name = input("## Enter the project name: ")
-    full_path = settings["RootFolderPath"].rstrip('/') + '/' + project_name
+    full_path = settings["rootFolderPath"].rstrip('/') + '/' + project_name
     create_project_folder(full_path)
     create_venv(full_path)
+    git_setup(settings["githubToken"])
     
