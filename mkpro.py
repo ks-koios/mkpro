@@ -8,21 +8,19 @@ def read_settings():
         return settings
 
 def create_project_folder(folder_path, project_name):
-    fullPath = folder_path.rstrip('/') + '/' + project_name
-    if not os.path.isdir(fullPath):
+    full_path = folder_path.rstrip('/') + '/' + project_name
+    if not os.path.isdir(full_path):
         try:
-            os.mkdir(fullPath)
+            os.mkdir(full_path)
         except OSError:
-            print(f"ERR: Failed creating project directory: {fullPath}")
+            print(f"ERR: Failed creating project directory: {full_path}")
         else:
             print("## Created new project folder")
     else:
         print("## ERR: Project folder already exists")
 
-# TODO(1): create a venv
 def create_venv():
-    subprocess.call(["py", "-m", "venv", "venv2"])
-    pass
+    subprocess.call(["py", "-m", "venv", "venv"])
 
 # TODO(2): git init
 # TODO(3): .gitignore
