@@ -7,8 +7,7 @@ def read_settings():
         settings = json.load(settings_file)
         return settings
 
-def create_project_folder(folder_path, project_name):
-    full_path = folder_path.rstrip('/') + '/' + project_name
+def create_project_folder(full_path):
     if not os.path.isdir(full_path):
         try:
             os.mkdir(full_path)
@@ -19,17 +18,20 @@ def create_project_folder(folder_path, project_name):
     else:
         print("## ERR: Project folder already exists")
 
-def create_venv():
+def create_venv(full_path):
+    os.chdir(full_path)
     subprocess.call(["py", "-m", "venv", "venv"])
+    print("## Created virtual environment")
 
 # TODO(2): git init
-# TODO(3): .gitignore
+# TODO(3): .gitignore and Readme
 # TODO(4): git push
 # TODO(5): open up code in WSL
 
 if __name__ == "__main__":
-    # settings = read_settings()
-    # project_name = input("## Enter the project name: ")
-    # create_project_folder(settings["RootFolderPath"], project_name)
-    create_venv()
+    settings = read_settings()
+    project_name = input("## Enter the project name: ")
+    full_path = settings["RootFolderPath"].rstrip('/') + '/' + project_name
+    create_project_folder(full_path)
+    create_venv(full_path)
     
