@@ -20,28 +20,35 @@ def create_project_folder(full_path):
         print("## ERR: Project folder already exists")
 
 def git_setup(github_user, github_token, project_name):
-    subprocess.call(["git", "init"])
+    subprocess.run(["git", "init"])
 
     with open(".gitignore", "w+") as f:
         f.write("venv/")
 
+    subprocess.run(["git", "add", "."])
+    subprocess.run(["git", "commit", "-m", "'first commmit'"])
+
     with requests.Session() as session:
         session.auth = ('token', github_token)
-
         resp = session.post(
             "https://api.github.com/user/repos",
             headers = {"Accept": "application/vnd.github.inertia-preview+json"},
             json = {"name": project_name}
         )
     print(resp)
-    print(json.dumps(resp.json(), indent=4))
+    # print(json.dumps(resp.json(), indent=4))
+
+    subprocess.run(["git",
+                    "remote",
+                    "add",
+                    "origin",
+                    f"https://github.com/{github_user}/{project_name}.git"])
+    subprocess.run(["git", "push", "-u", "origin", "master"])
 
 def create_venv(full_path):
     subprocess.call(["py", "-m", "venv", "venv"])
     print("## Created virtual environment")
 
-
-# TODO(5): open up code in WSL
 
 if __name__ == "__main__":
     settings = read_settings()
@@ -50,5 +57,6 @@ if __name__ == "__main__":
     create_project_folder(full_path)
     os.chdir(full_path)
     git_setup(settings["githubUser"], settings["githubToken"], project_name)
-    # create_venv(full_path)
-    
+    create_venv(full_path)
+    subprocess.run(["explorer", "."])
+    # TODO(5): open up code in WSL
