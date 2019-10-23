@@ -19,16 +19,28 @@ def create_project_folder(full_path):
     else:
         print("## ERR: Project folder already exists")
 
+def git_setup(github_user, github_token, project_name):
+    subprocess.call(["git", "init"])
+
+    with open(".gitignore", "w+") as f:
+        f.write("venv/")
+
+    with requests.Session() as session:
+        session.auth = ('token', github_token)
+
+        resp = session.post(
+            "https://api.github.com/user/repos",
+            headers = {"Accept": "application/vnd.github.inertia-preview+json"},
+            json = {"name": project_name}
+        )
+    print(resp)
+    print(json.dumps(resp.json(), indent=4))
+
 def create_venv(full_path):
-    os.chdir(full_path)
     subprocess.call(["py", "-m", "venv", "venv"])
     print("## Created virtual environment")
 
-# TODO(2): git init
-# TODO(3): .gitignore and Readme
-# TODO(4): git push
-def git_setup(github_token):
-    pass
+
 # TODO(5): open up code in WSL
 
 if __name__ == "__main__":
@@ -36,6 +48,7 @@ if __name__ == "__main__":
     project_name = input("## Enter the project name: ")
     full_path = settings["rootFolderPath"].rstrip('/') + '/' + project_name
     create_project_folder(full_path)
-    create_venv(full_path)
-    git_setup(settings["githubToken"])
+    os.chdir(full_path)
+    git_setup(settings["githubUser"], settings["githubToken"], project_name)
+    # create_venv(full_path)
     
