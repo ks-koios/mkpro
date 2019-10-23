@@ -15,11 +15,12 @@ def create_project_folder(full_path):
         except OSError:
             print(f"ERR: Failed creating project directory: {full_path}")
         else:
-            print("## Created new project folder")
+            print("### Created new project folder")
     else:
-        print("## ERR: Project folder already exists")
+        print("### ERR: Project folder already exists")
 
 def git_setup(github_user, github_token, project_name):
+    print("### Setting up Git")
     subprocess.run(["git", "init"])
 
     with open(".gitignore", "w+") as f:
@@ -43,10 +44,12 @@ def git_setup(github_user, github_token, project_name):
                     "origin",
                     f"https://github.com/{github_user}/{project_name}.git"])
     subprocess.run(["git", "push", "-u", "origin", "master"])
-
+    
+    print("### Git repo created and first commit pushed")
+    
 def create_venv(full_path):
     subprocess.call(["py", "-m", "venv", "venv"])
-    print("## Created virtual environment")
+    print("### Created virtual environment")
 
 if __name__ == "__main__":
     settings = read_settings()
