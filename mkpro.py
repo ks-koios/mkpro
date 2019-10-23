@@ -30,13 +30,12 @@ def git_setup(github_user, github_token, project_name):
 
     with requests.Session() as session:
         session.auth = ('token', github_token)
-        resp = session.post(
+        response = session.post(
             "https://api.github.com/user/repos",
             headers = {"Accept": "application/vnd.github.inertia-preview+json"},
             json = {"name": project_name}
         )
-    print(resp)
-    # print(json.dumps(resp.json(), indent=4))
+        print(response)
 
     subprocess.run(["git",
                     "remote",
@@ -48,7 +47,6 @@ def git_setup(github_user, github_token, project_name):
 def create_venv(full_path):
     subprocess.call(["py", "-m", "venv", "venv"])
     print("## Created virtual environment")
-
 
 if __name__ == "__main__":
     settings = read_settings()
